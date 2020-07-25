@@ -1,4 +1,3 @@
-
 import { checkIdParams, checkRequestBody } from "../../middleware/checks";
 import UsersController from "./usersController";
 
@@ -7,55 +6,49 @@ export default [
     {
         /**
          * @swagger
-         * /user:
-         *    post:
-         *      tags:
-         *          - User
-         *      summary: This should create a user for the given payload
-         *      description: This is where you can get a user details.
-         *      consumes:
-         *        - application/json
-         *      parameters:
-         *        - firstName: body
-         *          in: body
-         *          schema:
-         *            type: object
-         *            properties:
-         *              flavor:
-         *                type: string
-         *      responses:
-         *        200:
-         *          description: Receive back the user for the given id.
-         */
-        path: baseURL,
-        method: 'post',
-        handler: [
-            checkRequestBody,
-            UsersController.addUser
-        ]
-    },
-    {
-        /**
-         * @swagger
-         * /user:
+         * /user?id={id}:
          *    get:
          *      tags:
          *          - User
-         *      summary: This should return a user for the given id
-         *      description: This is where you can get a user details.
+         *      summary: Get a user by ID
+         *      description: Get user information for the given id.
+         *
          *      consumes:
          *        - application/json
+         *
          *      parameters:
-         *        - firstName: body
-         *          in: body
+         *        - in: query
+         *          name: id
          *          schema:
-         *            type: object
-         *            properties:
-         *              flavor:
-         *                type: string
+         *              type: integer
+         *          required: true
+         *
          *      responses:
-         *        200:
-         *          description: Receive back the user for the given id.
+         *          200:
+         *            description: Returns first name and id in an object
+         *            content:
+         *              application/json:
+         *                schema:
+         *                  type: object
+         *                  properties:
+         *                    firstName:
+         *                      type: string
+         *                    lastName:
+         *                      type: string
+         *                    dob:
+         *                      type: date
+         *                    address:
+         *                      type
+         *
+         *                example:
+         *                  firstName: Some
+         *                  lastName: Name
+         *                  dob: "10/10/2020"
+         *                  address: some address
+         *          400:
+         *              description: Bad request. ID must be an integer and bigger than 0.
+         *          404:
+         *              description: A user with the specified ID was not found.
          */
         path: baseURL,
         method: 'get',
@@ -70,14 +63,34 @@ export default [
          * /users:
          *    get:
          *      tags:
-         *          - Users
+         *          - User
          *      summary: This should return all the users
-         *      description: This is where you can view all the users available in the DB table.
-         *      consumes:
-         *        - application/json
+         *      description: This method allows you to view all the users in the DB table.
+         *
          *      responses:
-         *        200:
-         *          description: Receive back all the users.
+         *              200:
+         *                description: Returns arrary of user objects
+         *                content:
+         *                  application/json:
+         *                    schema:
+         *                      type: array
+         *                      items:
+         *                          type: object
+         *                          properties:
+         *                            firstName:
+         *                              type: string
+         *                            lastName:
+         *                              type: string
+         *                            dob:
+         *                              type: date
+         *                            address:
+         *                              type: text
+         *
+         *                    example:
+         *                      firstName: Some
+         *                      lastName: Name
+         *                      dob: "10/10/2020"
+         *                      address: some address
          */
         path: baseURL.concat('s'),
         method: 'get',
@@ -88,17 +101,45 @@ export default [
     {
         /**
          * @swagger
-         * /user:
+         * /user?id={id}:
          *    put:
          *      tags:
          *          - User
-         *      summary: This should let you update the user
-         *      description: This is where you can update a given user with id.
-         *      consumes:
-         *        - application/json
+         *      summary: Update an existing user
+         *
+         *      parameters:
+         *        - in: query
+         *          name: id
+         *          schema:
+         *              type: integer
+         *          required: true
+         *
+         *      requestBody:
+         *        required: true
+         *        content:
+         *          application/json:
+         *              schema:
+         *                type: object
+         *                properties:
+         *                  firstName:
+         *                    type: string
+         *                  lastName:
+         *                    type: string
+         *                  dob:
+         *                    type: date
+         *                  address:
+         *                    type: text
+         *
+         *              example:
+         *               firstName: Some
+         *               lastName: Name
+         *               dob: "10/10/2020"
+         *               address: some address
+         *
          *      responses:
-         *        200:
-         *          description: User updated successfully.
+         *              200:
+         *                description: "Record updated successfully"
+         *
          */
         path: baseURL,
         method: 'put',
@@ -106,5 +147,65 @@ export default [
             checkRequestBody,
             UsersController.updateUserById
         ],
+    },
+    {
+        /**
+         * @swagger
+         * /user:
+         *    post:
+         *      summary: Create a new user
+         *      tags:
+         *          - User
+         *
+         *      requestBody:
+         *        required: true
+         *        content:
+         *          application/json:
+         *              schema:
+         *                type: object
+         *                properties:
+         *                  firstName:
+         *                    type: string
+         *                  lastName:
+         *                    type: string
+         *                  dob:
+         *                    type: date
+         *                  address:
+         *                    type: text
+         *
+         *              example:
+         *               firstName: Some
+         *               lastName: Name
+         *               dob: "10/10/2020"
+         *               address: some address
+         *
+         *      responses:
+         *              200:
+         *                description: Returns first name and id in an object
+         *                content:
+         *                  application/json:
+         *                    schema:
+         *                      type: object
+         *                      properties:
+         *                        firstName:
+         *                          type: string
+         *                        lastName:
+         *                          type: string
+         *                        dob:
+         *                          type: date
+         *                        address:
+         *                          type: text
+         *
+         *                    example:
+         *                     id: "1"
+         *                     firstName: Some first name
+         *
+         */
+        path: baseURL,
+        method: 'post',
+        handler: [
+            checkRequestBody,
+            UsersController.addUser
+        ]
     },
 ];
