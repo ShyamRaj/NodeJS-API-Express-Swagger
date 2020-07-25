@@ -1,3 +1,5 @@
+create schema demo;
+
 create table demo.users
 (
     id        serial not null
