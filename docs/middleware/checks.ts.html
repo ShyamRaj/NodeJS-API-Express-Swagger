@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for utils/ErrorHandler.ts</title>
+    <title>Code coverage report for middleware/checks.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">utils</a> ErrorHandler.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">middleware</a> checks.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.54% </span>
+                <span class="strong">55.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/13</span>
+                <span class='fraction'>5/9</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.67% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.54% </span>
+                <span class="strong">55.56% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/13</span>
+                <span class='fraction'>5/9</span>
             </div>
         
             
@@ -81,52 +81,58 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Response, NextFunction } from "express";
-import { HTTPClientError, HTTP404Error } from "./HttpErrors";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response, NextFunction } from "express";
+import { HTTP400Error } from "../utils/HttpErrors";
 &nbsp;
-export const notFoundError = () =&gt; {
-    throw new HTTP404Error("Method not found.");
-};
-&nbsp;
-export const clientError = (err: Error, res: Response, next: NextFunction) =&gt; {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (err instanceof HTTPClientError) {
-        console.warn(err);
-        res.status(err.statusCode).send(err.message);
+export const checkIdParams = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (!req.query.id) {
+        throw new HTTP400Error("Missing id parameter");
     } else {
-<span class="cstat-no" title="statement not covered" >        next(err);</span>
+<span class="cstat-no" title="statement not covered" >        next();</span>
     }
 };
 &nbsp;
-export const serverError = <span class="fstat-no" title="function not covered" >(e</span>rr: Error, res: Response, next: NextFunction) =&gt; {
-<span class="cstat-no" title="statement not covered" >    console.error(err);</span>
-<span class="cstat-no" title="statement not covered" >    if (process.env.NODE_ENV === "production") {</span>
-<span class="cstat-no" title="statement not covered" >        res.status(500).send("Internal Server Error");</span>
+export const checkRequestBody = <span class="fstat-no" title="function not covered" >(</span>
+    req: Request,
+    res: Response,
+    next: NextFunction
+) =&gt; {
+<span class="cstat-no" title="statement not covered" >    if (!req.body) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new HTTP400Error("Missing body");</span>
     } else {
-<span class="cstat-no" title="statement not covered" >        res.status(500).send(err.stack);</span>
+<span class="cstat-no" title="statement not covered" >        next();</span>
     }
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -136,7 +142,7 @@ export const serverError = <span class="fstat-no" title="function not covered" >
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Jul 25 2020 07:11:37 GMT-0400 (Eastern Daylight Time)
+                at Sat Jul 25 2020 07:22:58 GMT-0400 (Eastern Daylight Time)
             </div>
         </div>
         <script src="../prettify.js"></script>
