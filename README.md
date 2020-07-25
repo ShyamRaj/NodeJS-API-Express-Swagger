@@ -14,6 +14,10 @@ Develop and serve 3 simple REST API Endpoints from a docker container.
 * Docker
 
 #### Getting Started
+* Create a .env file locally and add this following line to pass environment variables
+    ```
+       DATABASE_URL=postgres://user:pass@postgres:5432/db
+    ```
 * To get the app running locally run the following command
     ```
        npm run docker-compose-prod  
