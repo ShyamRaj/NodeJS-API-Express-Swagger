@@ -41,12 +41,10 @@ export default [
          *                      type
          *
          *                example:
-         *                  [
-         *                        firstName: Some,
-         *                        lastName: Name,
-         *                        dob: "10/10/2020",
-         *                        address: some address
-         *                    ]
+         *                  firstName: Some
+         *                  lastName: Name
+         *                  dob: "10/10/2020"
+         *                  address: some address
          *          400:
          *              description: Bad request. ID must be an integer and bigger than 0.
          *          404:
