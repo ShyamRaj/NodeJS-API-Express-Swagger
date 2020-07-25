@@ -33,3 +33,5 @@ Develop and serve 3 simple REST API Endpoints from a docker container.
     ```
     to view the coverage report [here](https://shyamraj.github.io/NodeJS-API-Express-Swagger/index.html) or if local open the index.html file present inside the coverage folder in this path "coverage/lcov-report/index.html" 
 
+* Open the browser and hit this url to view swagger docs http://localhost:3000/api-docs
+
